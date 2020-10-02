@@ -1,0 +1,469 @@
+Wait for updates to complete
+ Give execute priv to script
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://azure.archive.ubuntu.com/ubuntu xenial InRelease
+Get:2 http://azure.archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu xenial-backports InRelease [107 kB]
+Get:4 https://packages.microsoft.com/ubuntu/16.04/prod xenial InRelease [4003 B]
+Get:5 http://security.ubuntu.com/ubuntu xenial-security InRelease [109 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [1861 kB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu xenial-updates/main Translation-en [451 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu xenial-updates/restricted amd64 Packages [10.2 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [1178 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu xenial-updates/universe Translation-en [344 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu xenial-updates/multiverse amd64 Packages [23.0 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu xenial-backports/main amd64 Packages [9812 B]
+Get:13 http://azure.archive.ubuntu.com/ubuntu xenial-backports/universe amd64 Packages [11.3 kB]
+Get:14 https://packages.microsoft.com/ubuntu/16.04/prod xenial/main amd64 Packages [162 kB]
+Get:15 http://security.ubuntu.com/ubuntu xenial-security/main amd64 Packages [1456 kB]
+Get:16 http://security.ubuntu.com/ubuntu xenial-security/main Translation-en [347 kB]
+Get:17 http://security.ubuntu.com/ubuntu xenial-security/restricted amd64 Packages [9824 B]
+Get:18 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [754 kB]
+Get:19 http://security.ubuntu.com/ubuntu xenial-security/universe Translation-en [213 kB]
+Get:20 http://security.ubuntu.com/ubuntu xenial-security/multiverse amd64 Packages [8228 B]
+Fetched 7166 kB in 1s (4826 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+36 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60-26ubuntu1).
+sysstat is already the newest version (11.2.0-1ubuntu0.3).
+The following packages were automatically installed and are no longer required:
+  grub-pc-bin libapr1 libaprutil1 libauparse0
+Use 'apt autoremove' to remove them.
+The following additional packages will be installed:
+  libiperf0 libmysqlclient20 mysql-common
+Suggested packages:
+  gnuplot gfio
+The following NEW packages will be installed:
+  fio iperf3 libiperf0 libmysqlclient20 mysql-common sysbench
+0 upgraded, 6 newly installed, 0 to remove and 36 not upgraded.
+Need to get 1182 kB of archives.
+After this operation, 6079 kB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu xenial/universe amd64 fio amd64 2.2.10-1ubuntu1 [368 kB]
+Get:2 http://azure.archive.ubuntu.com/ubuntu xenial/universe amd64 libiperf0 amd64 3.0.11-1 [50.4 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu xenial/universe amd64 iperf3 amd64 3.0.11-1 [8090 B]
+Get:4 http://azure.archive.ubuntu.com/ubuntu xenial-updates/main amd64 mysql-common all 5.7.31-0ubuntu0.16.04.1 [15.0 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libmysqlclient20 amd64 5.7.31-0ubuntu0.16.04.1 [683 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu xenial/universe amd64 sysbench amd64 0.4.12-1.1ubuntu1 [57.6 kB]
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Fetched 1182 kB in 0s (16.5 MB/s)
+Selecting previously unselected package fio.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 83248 files and directories currently installed.)
+Preparing to unpack .../fio_2.2.10-1ubuntu1_amd64.deb ...
+Unpacking fio (2.2.10-1ubuntu1) ...
+Selecting previously unselected package libiperf0:amd64.
+Preparing to unpack .../libiperf0_3.0.11-1_amd64.deb ...
+Unpacking libiperf0:amd64 (3.0.11-1) ...
+Selecting previously unselected package iperf3.
+Preparing to unpack .../iperf3_3.0.11-1_amd64.deb ...
+Unpacking iperf3 (3.0.11-1) ...
+Selecting previously unselected package mysql-common.
+Preparing to unpack .../mysql-common_5.7.31-0ubuntu0.16.04.1_all.deb ...
+Unpacking mysql-common (5.7.31-0ubuntu0.16.04.1) ...
+Selecting previously unselected package libmysqlclient20:amd64.
+Preparing to unpack .../libmysqlclient20_5.7.31-0ubuntu0.16.04.1_amd64.deb ...
+Unpacking libmysqlclient20:amd64 (5.7.31-0ubuntu0.16.04.1) ...
+Selecting previously unselected package sysbench.
+Preparing to unpack .../sysbench_0.4.12-1.1ubuntu1_amd64.deb ...
+Unpacking sysbench (0.4.12-1.1ubuntu1) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for libc-bin (2.23-0ubuntu11.2) ...
+Setting up fio (2.2.10-1ubuntu1) ...
+Setting up libiperf0:amd64 (3.0.11-1) ...
+Setting up iperf3 (3.0.11-1) ...
+Setting up mysql-common (5.7.31-0ubuntu0.16.04.1) ...
+update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Setting up libmysqlclient20:amd64 (5.7.31-0ubuntu0.16.04.1) ...
+Setting up sysbench (0.4.12-1.1ubuntu1) ...
+Processing triggers for libc-bin (2.23-0ubuntu11.2) ...
+•	Sequential Reads & writes on POD AZURE NVME
+starting NVMe read and write tests on the pod
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+rm: cannot remove '/mnt/nvme/lost+found': Is a directory
+END NVMe tests on the Pod
+*********** Running tests **** 
+•	CPU Testing
+CPU Run 1
+sysbench 0.4.12:  multi-threaded system evaluation benchmark
+
+Running the test with following options:
+Number of threads: 1
+
+Doing CPU performance benchmark
+
+Threads started!
+Done.
+
+Maximum prime number checked in CPU test: 20000
+
+
+Test execution summary:
+    total time:                          17.5440s
+    total number of events:              10000
+    total time taken by event execution: 17.5428
+    per-request statistics:
+         min:                                  1.73ms
+         avg:                                  1.75ms
+         max:                                  8.22ms
+         approx.  95 percentile:               1.89ms
+
+Threads fairness:
+    events (avg/stddev):           10000.0000/0.00
+    execution time (avg/stddev):   17.5428/0.00
+
+•	Sequential Reads on NODE OS DISK /dev/sda1
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=8K-8K/8K-8K/8K-8K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 8 processes
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+
+seqread: (groupid=0, jobs=8): err= 0: pid=45147: Wed Sep 30 20:06:50 2020
+  read : io=8192.0MB, bw=196985KB/s, iops=24623, runt= 42585msec
+    slat (usec): min=4, max=444, avg= 9.23, stdev= 4.30
+    clat (usec): min=1, max=78386, avg=310.57, stdev=2671.43
+     lat (usec): min=38, max=78442, avg=320.26, stdev=2671.41
+    clat percentiles (usec):
+     |  1.00th=[   56],  5.00th=[   67], 10.00th=[   74], 20.00th=[   83],
+     | 30.00th=[   87], 40.00th=[   91], 50.00th=[   95], 60.00th=[   99],
+     | 70.00th=[  104], 80.00th=[  112], 90.00th=[  127], 95.00th=[  149],
+     | 99.00th=[  294], 99.50th=[29056], 99.90th=[44800], 99.95th=[45824],
+     | 99.99th=[47360]
+    bw (KB  /s): min=21392, max=61616, per=12.56%, avg=24744.39, stdev=1541.54
+    lat (usec) : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.35%
+    lat (usec) : 100=61.33%, 250=37.10%, 500=0.51%, 750=0.04%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=0.64%
+    lat (msec) : 100=0.01%
+  cpu          : usr=0.89%, sys=5.21%, ctx=1048650, majf=0, minf=209
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1048576/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=8192.0MB, aggrb=196985KB/s, minb=196985KB/s, maxb=196985KB/s, mint=42585msec, maxt=42585msec
+
+Disk stats (read/write):
+  sda: ios=1046303/47, merge=0/31, ticks=322096/348, in_queue=162056, util=88.36%
+•	Sequential Writes on NODE OS DISK /dev/sda1
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=32K-32K/32K-32K/32K-32K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 4 processes
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=45386: Wed Sep 30 20:07:08 2020
+  write: io=8192.0MB, bw=487823KB/s, iops=15244, runt= 17196msec
+    slat (usec): min=9, max=892, avg=18.50, stdev= 5.15
+    clat (usec): min=1, max=235853, avg=231.55, stdev=1620.27
+     lat (usec): min=55, max=235870, avg=250.54, stdev=1620.29
+    clat percentiles (usec):
+     |  1.00th=[   66],  5.00th=[   80], 10.00th=[   88], 20.00th=[   97],
+     | 30.00th=[  104], 40.00th=[  110], 50.00th=[  116], 60.00th=[  124],
+     | 70.00th=[  135], 80.00th=[  149], 90.00th=[  169], 95.00th=[  193],
+     | 99.00th=[  406], 99.50th=[ 5728], 99.90th=[25984], 99.95th=[34048],
+     | 99.99th=[36096]
+    bw (KB  /s): min=70272, max=200384, per=25.78%, avg=125748.27, stdev=13706.52
+    lat (usec) : 2=0.01%, 4=0.01%, 50=0.03%, 100=23.50%, 250=73.91%
+    lat (usec) : 500=1.92%, 750=0.10%, 1000=0.01%
+    lat (msec) : 2=0.02%, 4=0.01%, 10=0.02%, 20=0.32%, 50=0.16%
+    lat (msec) : 100=0.01%, 250=0.01%
+  cpu          : usr=3.88%, sys=10.76%, ctx=262187, majf=0, minf=80
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=262144/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: io=8192.0MB, aggrb=487823KB/s, minb=487823KB/s, maxb=487823KB/s, mint=17196msec, maxt=17196msec
+
+Disk stats (read/write):
+  sda: ios=0/261739, merge=0/92, ticks=0/54512, in_queue=25160, util=78.88%
+•	Sequential Reads on NODE TEMP DISK /dev/sdb1
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=8K-8K/8K-8K/8K-8K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 8 processes
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+
+seqread: (groupid=0, jobs=8): err= 0: pid=45617: Wed Sep 30 20:08:14 2020
+  read : io=8192.0MB, bw=195379KB/s, iops=24422, runt= 42935msec
+    slat (usec): min=3, max=921, avg= 8.61, stdev= 3.45
+    clat (usec): min=1, max=35004, avg=314.57, stdev=1441.19
+     lat (usec): min=87, max=35013, avg=323.62, stdev=1441.20
+    clat percentiles (usec):
+     |  1.00th=[  141],  5.00th=[  155], 10.00th=[  161], 20.00th=[  171],
+     | 30.00th=[  177], 40.00th=[  183], 50.00th=[  189], 60.00th=[  197],
+     | 70.00th=[  205], 80.00th=[  215], 90.00th=[  237], 95.00th=[  274],
+     | 99.00th=[ 1064], 99.50th=[11584], 99.90th=[26752], 99.95th=[31104],
+     | 99.99th=[32128]
+    bw (KB  /s): min=23040, max=27904, per=12.55%, avg=24515.59, stdev=540.57
+    lat (usec) : 2=0.01%, 10=0.01%, 20=0.01%, 50=0.01%, 100=0.01%
+    lat (usec) : 250=92.56%, 500=5.13%, 750=0.66%, 1000=0.58%
+    lat (msec) : 2=0.33%, 4=0.07%, 10=0.08%, 20=0.47%, 50=0.13%
+  cpu          : usr=0.99%, sys=5.12%, ctx=1048688, majf=0, minf=254
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1048576/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=8192.0MB, aggrb=195379KB/s, minb=195379KB/s, maxb=195379KB/s, mint=42935msec, maxt=42935msec
+
+Disk stats (read/write):
+  sdb: ios=1048244/11, merge=0/72, ticks=325612/0, in_queue=243576, util=99.69%
+•	Sequential Writes on NODE TEMP DISK /dev/sdb1
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=32K-32K/32K-32K/32K-32K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 4 processes
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=45886: Wed Sep 30 20:08:33 2020
+  write: io=8192.0MB, bw=455358KB/s, iops=14229, runt= 18422msec
+    slat (usec): min=6, max=743, avg=15.99, stdev= 6.73
+    clat (usec): min=29, max=23304, avg=236.90, stdev=688.45
+     lat (usec): min=79, max=23321, avg=253.40, stdev=688.65
+    clat percentiles (usec):
+     |  1.00th=[  102],  5.00th=[  116], 10.00th=[  126], 20.00th=[  141],
+     | 30.00th=[  157], 40.00th=[  177], 50.00th=[  195], 60.00th=[  211],
+     | 70.00th=[  227], 80.00th=[  247], 90.00th=[  274], 95.00th=[  302],
+     | 99.00th=[  506], 99.50th=[ 1912], 99.90th=[ 8160], 99.95th=[20352],
+     | 99.99th=[21888]
+    bw (KB  /s): min=98752, max=153984, per=27.31%, avg=124343.55, stdev=15276.79
+    lat (usec) : 50=0.01%, 100=0.69%, 250=80.54%, 500=17.75%, 750=0.40%
+    lat (usec) : 1000=0.04%
+    lat (msec) : 2=0.08%, 4=0.10%, 10=0.30%, 20=0.03%, 50=0.06%
+  cpu          : usr=2.47%, sys=13.08%, ctx=262180, majf=0, minf=100
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=262144/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: io=8192.0MB, aggrb=455358KB/s, minb=455358KB/s, maxb=455358KB/s, mint=18422msec, maxt=18422msec
+
+Disk stats (read/write):
+  sdb: ios=0/262063, merge=0/0, ticks=0/54160, in_queue=37084, util=89.65%
+•	Sequential Reads POD AZUREFILE STD
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 8 processes
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqread: (groupid=0, jobs=8): err= 0: pid=46683: Wed Sep 30 20:20:36 2020
+   read: IOPS=915, BW=7321KiB/s (7496kB/s)(4290MiB/600046msec)
+    slat (usec): min=10, max=499, avg=21.98, stdev= 7.15
+    clat (usec): min=1510, max=431891, avg=8716.18, stdev=22420.43
+     lat (usec): min=1543, max=431904, avg=8738.71, stdev=22420.36
+    clat percentiles (usec):
+     |  1.00th=[  1860],  5.00th=[  2008], 10.00th=[  2114], 20.00th=[  2278],
+     | 30.00th=[  2409], 40.00th=[  2573], 50.00th=[  2769], 60.00th=[  3032],
+     | 70.00th=[  3359], 80.00th=[  3752], 90.00th=[  5735], 95.00th=[ 59507],
+     | 99.00th=[101188], 99.50th=[124257], 99.90th=[212861], 99.95th=[227541],
+     | 99.99th=[316670]
+   bw (  KiB/s): min=   80, max= 1632, per=12.53%, avg=917.08, stdev=233.40, samples=9600
+   iops        : min=   10, max=  204, avg=114.47, stdev=29.19, samples=9600
+  lat (msec)   : 2=4.77%, 4=79.04%, 10=7.70%, 20=0.72%, 50=1.64%
+  lat (msec)   : 100=4.96%, 250=1.14%, 500=0.03%
+  cpu          : usr=0.08%, sys=0.46%, ctx=553834, majf=0, minf=272
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=549084,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=7321KiB/s (7496kB/s), 7321KiB/s-7321KiB/s (7496kB/s-7496kB/s), io=4290MiB (4498MB), run=600046-600046msec
+•	Sequential Writes on NODE POD AZUREFILE STD
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 4 processes
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=1365: Wed Sep 30 20:25:54 2020
+  write: IOPS=825, BW=25.8MiB/s (27.1MB/s)(8192MiB/317520msec)
+    slat (usec): min=432, max=2514, avg=553.82, stdev=159.81
+    clat (msec): min=2, max=303, avg= 4.28, stdev= 5.16
+     lat (msec): min=3, max=304, avg= 4.83, stdev= 5.16
+    clat percentiles (msec):
+     |  1.00th=[    4],  5.00th=[    4], 10.00th=[    4], 20.00th=[    4],
+     | 30.00th=[    4], 40.00th=[    4], 50.00th=[    4], 60.00th=[    4],
+     | 70.00th=[    4], 80.00th=[    5], 90.00th=[    5], 95.00th=[    6],
+     | 99.00th=[   11], 99.50th=[   32], 99.90th=[   91], 99.95th=[  100],
+     | 99.99th=[  110]
+   bw (  KiB/s): min= 2880, max= 7808, per=25.04%, avg=6615.85, stdev=606.97, samples=2533
+   iops        : min=   90, max=  244, avg=206.69, stdev=18.97, samples=2533
+  lat (msec)   : 4=73.94%, 10=24.98%, 20=0.47%, 50=0.23%, 100=0.34%
+  lat (msec)   : 250=0.04%, 500=0.01%
+  cpu          : usr=0.12%, sys=11.65%, ctx=266557, majf=0, minf=1151
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,262144,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=25.8MiB/s (27.1MB/s), 25.8MiB/s-25.8MiB/s (27.1MB/s-27.1MB/s), io=8192MiB (8590MB), run=317520-317520msec
+•	Sequential Reads POD AZUREFILE PREM
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 8 processes
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqread: (groupid=0, jobs=8): err= 0: pid=3977: Wed Sep 30 20:32:23 2020
+   read: IOPS=3846, BW=30.1MiB/s (31.5MB/s)(8192MiB/272582msec)
+    slat (usec): min=10, max=457, avg=25.90, stdev= 8.62
+    clat (usec): min=1353, max=207681, avg=2038.87, stdev=664.22
+     lat (usec): min=1391, max=207708, avg=2065.30, stdev=664.33
+    clat percentiles (usec):
+     |  1.00th=[ 1565],  5.00th=[ 1631], 10.00th=[ 1680], 20.00th=[ 1745],
+     | 30.00th=[ 1811], 40.00th=[ 1876], 50.00th=[ 1958], 60.00th=[ 2040],
+     | 70.00th=[ 2147], 80.00th=[ 2311], 90.00th=[ 2507], 95.00th=[ 2737],
+     | 99.00th=[ 3064], 99.50th=[ 3228], 99.90th=[ 3556], 99.95th=[ 3720],
+     | 99.99th=[ 4686]
+   bw (  KiB/s): min= 2240, max= 4176, per=12.57%, avg=3868.79, stdev=122.04, samples=4334
+   iops        : min=  280, max=  522, avg=483.45, stdev=15.28, samples=4334
+  lat (msec)   : 2=55.44%, 4=44.54%, 10=0.02%, 20=0.01%, 250=0.01%
+  cpu          : usr=0.34%, sys=2.14%, ctx=1083565, majf=0, minf=569
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=1048576,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=30.1MiB/s (31.5MB/s), 30.1MiB/s-30.1MiB/s (31.5MB/s-31.5MB/s), io=8192MiB (8590MB), run=272582-272582msec
+•	Sequential Writes on POD AZUREFILE PREM
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 4 processes
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=5571: Wed Sep 30 20:35:50 2020
+  write: IOPS=1267, BW=39.6MiB/s (41.5MB/s)(8192MiB/206822msec)
+    slat (usec): min=441, max=2391, avg=507.97, stdev=76.58
+    clat (usec): min=2144, max=24742, avg=2642.77, stdev=200.79
+     lat (usec): min=2832, max=25213, avg=3151.39, stdev=214.87
+    clat percentiles (usec):
+     |  1.00th=[ 2442],  5.00th=[ 2507], 10.00th=[ 2507], 20.00th=[ 2540],
+     | 30.00th=[ 2573], 40.00th=[ 2606], 50.00th=[ 2606], 60.00th=[ 2638],
+     | 70.00th=[ 2671], 80.00th=[ 2704], 90.00th=[ 2769], 95.00th=[ 2835],
+     | 99.00th=[ 3097], 99.50th=[ 3359], 99.90th=[ 4490], 99.95th=[ 5014],
+     | 99.99th=[ 7111]
+   bw (  KiB/s): min= 9152, max=10496, per=25.00%, avg=10140.96, stdev=148.19, samples=1652
+   iops        : min=  286, max=  328, avg=316.86, stdev= 4.64, samples=1652
+  lat (msec)   : 4=99.78%, 10=0.21%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.20%, sys=16.46%, ctx=268821, majf=0, minf=1201
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,262144,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=39.6MiB/s (41.5MB/s), 39.6MiB/s-39.6MiB/s (41.5MB/s-41.5MB/s), io=8192MiB (8590MB), run=206822-206822msec
+Finished_Tests

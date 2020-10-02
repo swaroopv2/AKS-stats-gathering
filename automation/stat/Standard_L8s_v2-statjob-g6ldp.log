@@ -1,0 +1,395 @@
+Wait for updates to complete
+ Give execute priv to script
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://azure.archive.ubuntu.com/ubuntu xenial InRelease
+Hit:2 http://azure.archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:3 http://azure.archive.ubuntu.com/ubuntu xenial-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:5 https://packages.microsoft.com/ubuntu/16.04/prod xenial InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+36 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+net-tools is already the newest version (1.60-26ubuntu1).
+fio is already the newest version (2.2.10-1ubuntu1).
+iperf3 is already the newest version (3.0.11-1).
+sysbench is already the newest version (0.4.12-1.1ubuntu1).
+sysstat is already the newest version (11.2.0-1ubuntu0.3).
+The following packages were automatically installed and are no longer required:
+  grub-pc-bin libapr1 libaprutil1 libauparse0
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 36 not upgraded.
+•	Sequential Reads & writes on POD AZURE NVME
+starting NVMe read and write tests on the pod
+END NVMe tests on the Pod
+*********** Running tests **** 
+•	CPU Testing
+CPU Run 1
+sysbench 0.4.12:  multi-threaded system evaluation benchmark
+
+Running the test with following options:
+Number of threads: 1
+
+Doing CPU performance benchmark
+
+Threads started!
+Done.
+
+Maximum prime number checked in CPU test: 20000
+
+
+Test execution summary:
+    total time:                          17.7183s
+    total number of events:              10000
+    total time taken by event execution: 17.7172
+    per-request statistics:
+         min:                                  1.73ms
+         avg:                                  1.77ms
+         max:                                  2.29ms
+         approx.  95 percentile:               1.96ms
+
+Threads fairness:
+    events (avg/stddev):           10000.0000/0.00
+    execution time (avg/stddev):   17.7172/0.00
+
+•	Sequential Reads on NODE OS DISK /dev/sda1
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=8K-8K/8K-8K/8K-8K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 8 processes
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+
+seqread: (groupid=0, jobs=8): err= 0: pid=13400: Mon Sep 28 21:28:44 2020
+  read : io=8192.0MB, bw=33366KB/s, iops=4170, runt=251413msec
+    slat (usec): min=3, max=1188, avg= 8.40, stdev= 6.22
+    clat (usec): min=1, max=109993, avg=1905.58, stdev=9058.79
+     lat (usec): min=37, max=110009, avg=1914.55, stdev=9058.70
+    clat percentiles (usec):
+     |  1.00th=[   62],  5.00th=[   74], 10.00th=[   80], 20.00th=[   88],
+     | 30.00th=[   93], 40.00th=[   99], 50.00th=[  104], 60.00th=[  110],
+     | 70.00th=[  118], 80.00th=[  131], 90.00th=[  181], 95.00th=[  286],
+     | 99.00th=[44288], 99.50th=[59136], 99.90th=[59648], 99.95th=[59648],
+     | 99.99th=[60160]
+    bw (KB  /s): min= 3232, max= 4682, per=12.50%, avg=4172.22, stdev=161.82
+    lat (usec) : 2=0.01%, 4=0.01%, 20=0.01%, 50=0.16%, 100=41.38%
+    lat (usec) : 250=52.73%, 500=1.75%, 750=0.09%, 1000=0.02%
+    lat (msec) : 2=0.01%, 4=0.01%, 10=0.01%, 20=0.01%, 50=3.07%
+    lat (msec) : 100=0.76%, 250=0.01%
+  cpu          : usr=0.26%, sys=1.17%, ctx=1048569, majf=0, minf=109
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1048576/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=8192.0MB, aggrb=33365KB/s, minb=33365KB/s, maxb=33365KB/s, mint=251413msec, maxt=251413msec
+
+Disk stats (read/write):
+  sda: ios=1072818/3026, merge=0/22167, ticks=2254924/155916, in_queue=2007676, util=92.36%
+•	Sequential Writes on NODE OS DISK /dev/sda1
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=32K-32K/32K-32K/32K-32K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 4 processes
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=14791: Mon Sep 28 21:30:21 2020
+  write: io=8192.0MB, bw=86814KB/s, iops=2712, runt= 96627msec
+    slat (usec): min=7, max=427, avg=13.72, stdev= 4.26
+    clat (usec): min=38, max=60281, avg=1456.45, stdev=7668.61
+     lat (usec): min=53, max=60297, avg=1470.65, stdev=7668.50
+    clat percentiles (usec):
+     |  1.00th=[   58],  5.00th=[   66], 10.00th=[   71], 20.00th=[   79],
+     | 30.00th=[   86], 40.00th=[   95], 50.00th=[  106], 60.00th=[  120],
+     | 70.00th=[  135], 80.00th=[  151], 90.00th=[  187], 95.00th=[  342],
+     | 99.00th=[42752], 99.50th=[57088], 99.90th=[58624], 99.95th=[58624],
+     | 99.99th=[59136]
+    bw (KB  /s): min=19035, max=24192, per=25.01%, avg=21708.18, stdev=522.13
+    lat (usec) : 50=0.05%, 100=44.74%, 250=48.28%, 500=3.16%, 750=0.26%
+    lat (usec) : 1000=0.14%
+    lat (msec) : 2=0.18%, 4=0.09%, 10=0.14%, 20=0.01%, 50=2.38%
+    lat (msec) : 100=0.57%
+  cpu          : usr=0.59%, sys=1.50%, ctx=262171, majf=0, minf=53
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=262144/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: io=8192.0MB, aggrb=86814KB/s, minb=86814KB/s, maxb=86814KB/s, mint=96627msec, maxt=96627msec
+
+Disk stats (read/write):
+  sda: ios=0/261787, merge=0/506, ticks=0/385100, in_queue=269120, util=91.20%
+•	Sequential Reads on NODE TEMP DISK /dev/sdb1
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=8K-8K/8K-8K/8K-8K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 8 processes
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+seqread: Laying out IO file(s) (1 file(s) / 1024MB)
+
+seqread: (groupid=0, jobs=8): err= 0: pid=15918: Mon Sep 28 21:36:27 2020
+  read : io=8192.0MB, bw=32588KB/s, iops=4073, runt=257415msec
+    slat (usec): min=3, max=155, avg= 7.99, stdev= 3.89
+    clat (usec): min=62, max=135545, avg=1950.41, stdev=8751.44
+     lat (usec): min=92, max=135557, avg=1958.91, stdev=8751.35
+    clat percentiles (usec):
+     |  1.00th=[  139],  5.00th=[  151], 10.00th=[  159], 20.00th=[  169],
+     | 30.00th=[  177], 40.00th=[  185], 50.00th=[  191], 60.00th=[  199],
+     | 70.00th=[  209], 80.00th=[  223], 90.00th=[  258], 95.00th=[  370],
+     | 99.00th=[42240], 99.50th=[57088], 99.90th=[57600], 99.95th=[58112],
+     | 99.99th=[58112]
+    bw (KB  /s): min= 3136, max= 5920, per=12.51%, avg=4076.90, stdev=109.86
+    lat (usec) : 100=0.01%, 250=88.74%, 500=6.85%, 750=0.22%, 1000=0.08%
+    lat (msec) : 2=0.09%, 4=0.05%, 10=0.05%, 20=0.01%, 50=3.14%
+    lat (msec) : 100=0.78%, 250=0.01%
+  cpu          : usr=0.25%, sys=1.08%, ctx=1048628, majf=0, minf=118
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1048576/w=0/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: io=8192.0MB, aggrb=32587KB/s, minb=32587KB/s, maxb=32587KB/s, mint=257415msec, maxt=257415msec
+
+Disk stats (read/write):
+  sdb: ios=1048421/10, merge=0/20, ticks=2031672/60, in_queue=1624456, util=91.35%
+•	Sequential Writes on NODE TEMP DISK /dev/sdb1
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=32K-32K/32K-32K/32K-32K, ioengine=libaio, iodepth=1
+...
+fio-2.2.10
+Starting 4 processes
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+seqwrite: Laying out IO file(s) (1 file(s) / 2048MB)
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=17320: Mon Sep 28 21:38:10 2020
+  write: io=8192.0MB, bw=81944KB/s, iops=2560, runt=102370msec
+    slat (usec): min=6, max=261, avg=10.76, stdev= 3.33
+    clat (usec): min=78, max=66989, avg=1547.98, stdev=7636.18
+     lat (usec): min=87, max=67000, avg=1559.20, stdev=7636.09
+    clat percentiles (usec):
+     |  1.00th=[  100],  5.00th=[  111], 10.00th=[  120], 20.00th=[  135],
+     | 30.00th=[  151], 40.00th=[  171], 50.00th=[  189], 60.00th=[  203],
+     | 70.00th=[  219], 80.00th=[  239], 90.00th=[  274], 95.00th=[  338],
+     | 99.00th=[41216], 99.50th=[56064], 99.90th=[56576], 99.95th=[57088],
+     | 99.99th=[57088]
+    bw (KB  /s): min=18725, max=22528, per=25.01%, avg=20496.73, stdev=305.60
+    lat (usec) : 100=0.92%, 250=83.41%, 500=12.15%, 750=0.22%, 1000=0.05%
+    lat (msec) : 2=0.06%, 4=0.05%, 10=0.03%, 20=0.01%, 50=2.50%
+    lat (msec) : 100=0.62%
+  cpu          : usr=0.29%, sys=1.47%, ctx=262169, majf=0, minf=51
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=0/w=262144/d=0, short=r=0/w=0/d=0, drop=r=0/w=0/d=0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: io=8192.0MB, aggrb=81944KB/s, minb=81944KB/s, maxb=81944KB/s, mint=102370msec, maxt=102370msec
+
+Disk stats (read/write):
+  sdb: ios=0/261756, merge=0/147, ticks=0/399220, in_queue=278248, util=92.21%
+•	Sequential Reads POD AZUREFILE STD
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 8 processes
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqread: (groupid=0, jobs=8): err= 0: pid=18577: Mon Sep 28 21:50:17 2020
+   read: IOPS=894, BW=7156KiB/s (7327kB/s)(4193MiB/600052msec)
+    slat (usec): min=9, max=423, avg=21.15, stdev= 5.84
+    clat (usec): min=1497, max=440755, avg=8918.55, stdev=21502.04
+     lat (usec): min=1533, max=440793, avg=8940.28, stdev=21501.88
+    clat percentiles (usec):
+     |  1.00th=[  1909],  5.00th=[  2114], 10.00th=[  2245], 20.00th=[  2442],
+     | 30.00th=[  2638], 40.00th=[  2868], 50.00th=[  3130], 60.00th=[  3425],
+     | 70.00th=[  3818], 80.00th=[  4359], 90.00th=[  8356], 95.00th=[ 56361],
+     | 99.00th=[101188], 99.50th=[120062], 99.90th=[208667], 99.95th=[217056],
+     | 99.99th=[265290]
+   bw (  KiB/s): min=  128, max= 1584, per=12.50%, avg=894.41, stdev=216.89, samples=9600
+   iops        : min=   16, max=  198, avg=111.76, stdev=27.12, samples=9600
+  lat (msec)   : 2=2.44%, 4=71.88%, 10=16.29%, 20=1.53%, 50=2.02%
+  lat (msec)   : 100=4.73%, 250=1.10%, 500=0.01%
+  cpu          : usr=0.09%, sys=0.49%, ctx=541263, majf=0, minf=104
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=536726,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=7156KiB/s (7327kB/s), 7156KiB/s-7156KiB/s (7327kB/s-7327kB/s), io=4193MiB (4397MB), run=600052-600052msec
+•	Sequential Writes on NODE POD AZUREFILE STD
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 4 processes
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=21862: Mon Sep 28 21:56:04 2020
+  write: IOPS=756, BW=23.6MiB/s (24.8MB/s)(8192MiB/346641msec)
+    slat (usec): min=426, max=2499, avg=630.98, stdev=233.32
+    clat (msec): min=3, max=595, avg= 4.65, stdev= 2.96
+     lat (msec): min=3, max=596, avg= 5.28, stdev= 2.97
+    clat percentiles (usec):
+     |  1.00th=[ 3392],  5.00th=[ 3556], 10.00th=[ 3654], 20.00th=[ 3818],
+     | 30.00th=[ 3949], 40.00th=[ 4080], 50.00th=[ 4228], 60.00th=[ 4359],
+     | 70.00th=[ 4621], 80.00th=[ 4948], 90.00th=[ 5669], 95.00th=[ 6915],
+     | 99.00th=[12518], 99.50th=[15008], 99.90th=[22938], 99.95th=[25822],
+     | 99.99th=[63177]
+   bw (  KiB/s): min= 1728, max= 7488, per=25.02%, avg=6053.61, stdev=680.35, samples=2770
+   iops        : min=   54, max=  234, avg=189.13, stdev=21.26, samples=2770
+  lat (msec)   : 4=33.61%, 10=64.44%, 20=1.78%, 50=0.15%, 100=0.01%
+  lat (msec)   : 250=0.01%, 750=0.01%
+  cpu          : usr=0.11%, sys=12.20%, ctx=268184, majf=0, minf=37
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,262144,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=23.6MiB/s (24.8MB/s), 23.6MiB/s-23.6MiB/s (24.8MB/s-24.8MB/s), io=8192MiB (8590MB), run=346641-346641msec
+•	Sequential Reads POD AZUREFILE PREM
+Sequential Reads Run 1
+seqread: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 8 processes
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+seqread: Laying out IO file (1 file / 1024MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqread: (groupid=0, jobs=8): err= 0: pid=24362: Mon Sep 28 22:02:42 2020
+   read: IOPS=3775, BW=29.5MiB/s (30.9MB/s)(8192MiB/277725msec)
+    slat (usec): min=9, max=812, avg=18.76, stdev= 6.81
+    clat (usec): min=1355, max=42188, avg=2091.26, stdev=399.64
+     lat (usec): min=1389, max=42205, avg=2110.56, stdev=399.90
+    clat percentiles (usec):
+     |  1.00th=[ 1565],  5.00th=[ 1647], 10.00th=[ 1696], 20.00th=[ 1778],
+     | 30.00th=[ 1844], 40.00th=[ 1909], 50.00th=[ 1991], 60.00th=[ 2089],
+     | 70.00th=[ 2212], 80.00th=[ 2376], 90.00th=[ 2606], 95.00th=[ 2868],
+     | 99.00th=[ 3261], 99.50th=[ 3458], 99.90th=[ 4359], 99.95th=[ 4883],
+     | 99.99th=[ 7046]
+   bw (  KiB/s): min= 3162, max= 3992, per=12.53%, avg=3785.60, stdev=89.75, samples=4428
+   iops        : min=  395, max=  499, avg=473.18, stdev=11.22, samples=4428
+  lat (msec)   : 2=51.19%, 4=48.64%, 10=0.16%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.34%, sys=2.04%, ctx=1071804, majf=0, minf=107
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=1048576,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=29.5MiB/s (30.9MB/s), 29.5MiB/s-29.5MiB/s (30.9MB/s-30.9MB/s), io=8192MiB (8590MB), run=277725-277725msec
+•	Sequential Writes on POD AZUREFILE PREM
+Sequential Writes Run 1
+seqwrite: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=libaio, iodepth=1
+...
+fio-3.1
+Starting 4 processes
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+seqwrite: Laying out IO file (1 file / 2048MiB)
+fio: native_fallocate call failed: Operation not supported
+
+seqwrite: (groupid=0, jobs=4): err= 0: pid=25888: Mon Sep 28 22:06:23 2020
+  write: IOPS=1190, BW=37.2MiB/s (39.0MB/s)(8192MiB/220119msec)
+    slat (usec): min=437, max=3093, avg=564.62, stdev=114.39
+    clat (usec): min=2419, max=24648, avg=2788.99, stdev=273.65
+     lat (usec): min=2896, max=25408, avg=3354.37, stdev=294.89
+    clat percentiles (usec):
+     |  1.00th=[ 2573],  5.00th=[ 2606], 10.00th=[ 2638], 20.00th=[ 2671],
+     | 30.00th=[ 2704], 40.00th=[ 2737], 50.00th=[ 2737], 60.00th=[ 2769],
+     | 70.00th=[ 2802], 80.00th=[ 2868], 90.00th=[ 2933], 95.00th=[ 3032],
+     | 99.00th=[ 3687], 99.50th=[ 4686], 99.90th=[ 5604], 99.95th=[ 6390],
+     | 99.99th=[ 8848]
+   bw (  KiB/s): min= 8384, max= 9856, per=25.01%, avg=9529.37, stdev=162.89, samples=1759
+   iops        : min=  262, max=  308, avg=297.76, stdev= 5.09, samples=1759
+  lat (msec)   : 4=99.19%, 10=0.80%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.18%, sys=17.44%, ctx=269247, majf=0, minf=46
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,262144,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=37.2MiB/s (39.0MB/s), 37.2MiB/s-37.2MiB/s (39.0MB/s-39.0MB/s), io=8192MiB (8590MB), run=220119-220119msec
+Finished_Tests

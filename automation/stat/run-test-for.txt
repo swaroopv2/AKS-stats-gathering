@@ -1,0 +1,1 @@
+aks-benchmark benchmarkcluster aksbenchmark Standard_DS2_v2

@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: statjob
+
+spec:
+  # selector:
+  #     matchLabels:
+  #       name: statjob # Label selector that determines which Pods belong to the DaemonSet
+  template:
+    metadata:
+      labels:
+        name: statjob # Pod template's label selector
+    spec:
+      hostPID: true
+      nodeSelector:
+         allow-stat-test: "True"
+         kubernetes.azure.com/aks-local-ssd: "True"
+      restartPolicy: Never
+      imagePullSecrets:
+      - name: regcred
+      #initContainers:
+      #- name: aks-nvme-ssd-provisioner
+      #  image: aksbenchmarkregistry.azurecr.io/nvmemount:v1
+      #  imagePullPolicy: Always
+      #  securityContext:
+      #    privileged: true
+      #  volumeMounts:
+      #    - mountPath: /pv-disks
+      #      name: local-storage
+      #      mountPropagation: "Bidirectional"
+      containers:
+      - name: statjob
+        #image: aksbenchmarkregistry.azurecr.io/benchmarker:v8
+        image: scopsbenchmark.azurecr.io/benchmarker:latest
+        
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: install-script
+            mountPath: /tmp
+          - name: host-mount
+            mountPath: /host
+          - name: azurefile-std
+            mountPath: /mnt/azurefile-std
+          - name: azurefile-prem
+            mountPath: /mnt/azurefile-prem
+          - name: local-storage
+            mountPath: /mnt/nvme
+
+      volumes:
+        - name: install-script
+          configMap:
+            name: install-stat-tools-and-run
+        - name: host-mount
+          hostPath:
+            path: /tmp/install
+        - name: azurefile-std
+          persistentVolumeClaim:
+            claimName: azurefile-std
+        - name: azurefile-prem
+          persistentVolumeClaim:
+            claimName: azurefile-prem
+        - name: local-storage
+          persistentVolumeClaim:
+            claimName: nvme
