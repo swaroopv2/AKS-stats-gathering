@@ -22,7 +22,7 @@
 #done;
 
 # Get Creds
-#az aks get-credentials -g $1 -n $2
+az aks get-credentials -g $1 -n $2
 
 # Docker login
 #docker login aksbenchmarkregistry.azurecr.io
