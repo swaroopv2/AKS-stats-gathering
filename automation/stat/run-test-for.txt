@@ -1,1 +1,1 @@
-aks-benchmark benchmarkcluster aksnamespace Standard_DS2_v2
+iog-scops-cicd-test-swaroop iog-scops-cicd-test-cluster cicdtestpool Standard_L8s_v2

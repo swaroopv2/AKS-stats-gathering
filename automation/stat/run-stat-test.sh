@@ -4,38 +4,38 @@
 # eg. ./run-stat-test.sh k8s cluster m128 Standard_M128
 
 # Create the group
-az group create --name $1 --location eastus
+#az group create --name $1 --location eastus
 
 # Create AKS Cluster
 # az aks create --resource-group hpccops-testrg001 --name aks-hpcc --node-vm-size Standard_H16 --node-count 2 --enable-managed-identity
-az aks create -g  $1 -n --cluster-name $3 --enable-managed-identity
+#az aks create -g  $1 -n --cluster-name $3 --enable-managed-identity
 
 #create new nodepool
-az aks nodepool add -g $1 --cluster-name $2 --name $3 --node-vm-size $4 --node-count 1 --mode User --labels allow-stat-test=True kubernetes.azure.com/aks-local-ssd=True --no-wait
+#az aks nodepool add -g $1 --cluster-name $2 --name $3 --node-vm-size $4 --node-count 1 --mode User --labels allow-stat-test=True kubernetes.azure.com/aks-local-ssd=True --no-wait
 
 # Get nodepool status
-nodepool_status=""
-while [ "$nodepool_status" != "Succeeded" ];do
-    nodepool_status=$(az aks nodepool show -g $1 --cluster-name $2 --name $3   --query provisioningState -o tsv);
-    echo "Nodepool $3 Provisioning state: $nodepool_status...";
-    sleep 5;
-done;
+#nodepool_status=""
+#while [ "$nodepool_status" != "Succeeded" ];do
+#    nodepool_status=$(az aks nodepool show -g $1 --cluster-name $2 --name $3   --query provisioningState -o tsv);
+#    echo "Nodepool $3 Provisioning state: $nodepool_status...";
+#    sleep 5;
+#done;
 
 # Get Creds
-az aks get-credentials -g $1 -n $2
+#az aks get-credentials -g $1 -n $2
 
 # Docker login
-docker login aksbenchmarkregistry.azurecr.io
+#docker login aksbenchmarkregistry.azurecr.io
 
 # Create Name Space
-kubectl create namespace $3
+#kubectl create namespace $3
 
 # Make sure the name space can access the Docker registry
 
 # Apply Kubernetes Manifests
 kubectl apply -f ../lcl-strg-prvsn/storage-local-static-provisioner.yaml
 
-sleep 3s
+#sleep 3s
 
 kubectl apply -f . -n $3
 
@@ -58,4 +58,4 @@ fi
 cat  $4-$pod.log||egrep "cat|CPU Run|threads:|Prime numbers limit:|events per second:|total time:|total number of events:|min:|avg:|max:|approx.  95 percentile:|Sequential Reads|READ:|Sequential Writes|WRITE:" > summary.log
 
 # Finally Delete AKS cluster
-az aks delete  -g  $1 -n  $3 
+#az aks delete  -g  $1 -n  $3 
