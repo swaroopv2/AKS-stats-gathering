@@ -33,9 +33,9 @@ az aks get-credentials -g $1 -n $2
 # Make sure the name space can access the Docker registry
 
 # Apply Kubernetes Manifests
-kubectl apply -f ../lcl-strg-prvsn/storage-local-static-provisioner.yaml
+#kubectl apply -f ../lcl-strg-prvsn/storage-local-static-provisioner.yaml
 
-sleep 200s
+#sleep 200s
 
 kubectl apply -f . -n $3
 
