@@ -35,7 +35,7 @@ az aks get-credentials -g $1 -n $2
 # Apply Kubernetes Manifests
 kubectl apply -f ../lcl-strg-prvsn/storage-local-static-provisioner.yaml
 
-#sleep 3s
+sleep 200s
 
 kubectl apply -f . -n $3
 
