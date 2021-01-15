@@ -1,0 +1,600 @@
+# Source: hpcc/templates/esp.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: eclwatch-configmap 
+data:
+  eclwatch.yaml: |
+    version: 1.0
+    esp:
+      application: eclwatch
+      auth: none
+      name: eclwatch
+      port: 8888
+      public: true
+      replicas: 1
+      servicePort: 8010
+      tls: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+      services:
+      - name: roxie
+        type: roxie
+        port: 9876
+        target: roxie
+      - name: eclwatch
+        type: eclwatch
+        port: 8010
+        tls: false
+        public: true
+      - name: eclservices
+        type: eclservices
+        port: 8010
+        tls: false
+        public: false
+      - name: eclqueries
+        type: eclqueries
+        port: 8002
+        tls: false
+        public: true
+      - name: esdl-sandbox
+        type: esdl-sandbox
+        port: 8899
+        tls: false
+        public: true
+      - name: sql2ecl
+        type: sql2ecl
+        port: 8510
+        tls: false
+        public: true
+      
+      vaults:
+        esp:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8
+---
+# Source: hpcc/templates/esp.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: eclservices-configmap 
+data:
+  eclservices.yaml: |
+    version: 1.0
+    esp:
+      application: eclservices
+      auth: none
+      name: eclservices
+      public: false
+      replicas: 1
+      servicePort: 8010
+      tls: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+      services:
+      - name: roxie
+        type: roxie
+        port: 9876
+        target: roxie
+      - name: eclwatch
+        type: eclwatch
+        port: 8010
+        tls: false
+        public: true
+      - name: eclservices
+        type: eclservices
+        port: 8010
+        tls: false
+        public: false
+      - name: eclqueries
+        type: eclqueries
+        port: 8002
+        tls: false
+        public: true
+      - name: esdl-sandbox
+        type: esdl-sandbox
+        port: 8899
+        tls: false
+        public: true
+      - name: sql2ecl
+        type: sql2ecl
+        port: 8510
+        tls: false
+        public: true
+      
+      vaults:
+        esp:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8
+---
+# Source: hpcc/templates/esp.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: eclqueries-configmap 
+data:
+  eclqueries.yaml: |
+    version: 1.0
+    esp:
+      application: eclqueries
+      auth: none
+      name: eclqueries
+      public: true
+      replicas: 1
+      servicePort: 8002
+      tls: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+      services:
+      - name: roxie
+        type: roxie
+        port: 9876
+        target: roxie
+      - name: eclwatch
+        type: eclwatch
+        port: 8010
+        tls: false
+        public: true
+      - name: eclservices
+        type: eclservices
+        port: 8010
+        tls: false
+        public: false
+      - name: eclqueries
+        type: eclqueries
+        port: 8002
+        tls: false
+        public: true
+      - name: esdl-sandbox
+        type: esdl-sandbox
+        port: 8899
+        tls: false
+        public: true
+      - name: sql2ecl
+        type: sql2ecl
+        port: 8510
+        tls: false
+        public: true
+      
+      vaults:
+        esp:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8
+---
+# Source: hpcc/templates/esp.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: esdl-sandbox-configmap 
+data:
+  esdl-sandbox.yaml: |
+    version: 1.0
+    esp:
+      application: esdl-sandbox
+      auth: none
+      name: esdl-sandbox
+      public: true
+      replicas: 1
+      servicePort: 8899
+      tls: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+      services:
+      - name: roxie
+        type: roxie
+        port: 9876
+        target: roxie
+      - name: eclwatch
+        type: eclwatch
+        port: 8010
+        tls: false
+        public: true
+      - name: eclservices
+        type: eclservices
+        port: 8010
+        tls: false
+        public: false
+      - name: eclqueries
+        type: eclqueries
+        port: 8002
+        tls: false
+        public: true
+      - name: esdl-sandbox
+        type: esdl-sandbox
+        port: 8899
+        tls: false
+        public: true
+      - name: sql2ecl
+        type: sql2ecl
+        port: 8510
+        tls: false
+        public: true
+      
+      vaults:
+        esp:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8
+---
+# Source: hpcc/templates/esp.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: sql2ecl-configmap 
+data:
+  sql2ecl.yaml: |
+    version: 1.0
+    esp:
+      application: sql2ecl
+      auth: none
+      name: sql2ecl
+      public: true
+      replicas: 1
+      servicePort: 8510
+      tls: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+      services:
+      - name: roxie
+        type: roxie
+        port: 9876
+        target: roxie
+      - name: eclwatch
+        type: eclwatch
+        port: 8010
+        tls: false
+        public: true
+      - name: eclservices
+        type: eclservices
+        port: 8010
+        tls: false
+        public: false
+      - name: eclqueries
+        type: eclqueries
+        port: 8002
+        tls: false
+        public: true
+      - name: esdl-sandbox
+        type: esdl-sandbox
+        port: 8899
+        tls: false
+        public: true
+      - name: sql2ecl
+        type: sql2ecl
+        port: 8510
+        tls: false
+        public: true
+      
+      vaults:
+        esp:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8

@@ -1,0 +1,173 @@
+# Source: hpcc/templates/eclagent.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "hthor"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "hthor"
+  template:
+    metadata:
+      labels:
+        run: "hthor"
+        accessDali: "yes"
+        accessEsp: "no"
+    spec:
+      serviceAccountName: hpcc-agent
+      initContainers:      
+      containers:
+      - name: "hthor"
+        workingDir: /var/lib/HPCCSystems
+        command: [ agentexec ] 
+        args: [ 
+                "--config=/etc/config/hthor.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/hthor.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/hthor.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/hthor.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        resources:
+          limits:
+            cpu: "50m"
+            memory: "100M"
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: hthor-temp-volume
+          mountPath: /tmp
+        - name: hthor-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: hthor-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: hthor-temp-volume
+        emptyDir: {}
+      - name: hthor-hpcctmp-volume
+        emptyDir: {}
+      - name: hthor-configmap-volume
+        configMap:
+          name: hthor-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/eclagent.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "roxie-workunit"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "roxie-workunit"
+  template:
+    metadata:
+      labels:
+        run: "roxie-workunit"
+        accessDali: "yes"
+        accessEsp: "yes"
+    spec:
+      serviceAccountName: hpcc-default
+      initContainers:      
+      containers:
+      - name: "roxie-workunit"
+        workingDir: /var/lib/HPCCSystems
+        command: [ agentexec ] 
+        args: [ 
+                "--config=/etc/config/roxie-workunit.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/roxie-workunit.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie-workunit.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie-workunit.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: roxie-workunit-temp-volume
+          mountPath: /tmp
+        - name: roxie-workunit-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: roxie-workunit-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: roxie-workunit-temp-volume
+        emptyDir: {}
+      - name: roxie-workunit-hpcctmp-volume
+        emptyDir: {}
+      - name: roxie-workunit-configmap-volume
+        configMap:
+          name: roxie-workunit-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc

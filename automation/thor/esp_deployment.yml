@@ -1,0 +1,424 @@
+# Source: hpcc/templates/esp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "eclwatch"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "eclwatch"
+  template:
+    metadata:
+      labels:
+        run: "eclwatch"
+        accessDali: "yes"
+        app: eclwatch
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "eclwatch"
+        workingDir: /var/lib/HPCCSystems
+        command: [ esp ] 
+        args: [
+                "--application=eclwatch",
+                "--config=/etc/config/eclwatch.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/eclwatch.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclwatch.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclwatch.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: eclwatch-temp-volume
+          mountPath: /tmp
+        - name: eclwatch-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: eclwatch-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: eclwatch-temp-volume
+        emptyDir: {}
+      - name: eclwatch-hpcctmp-volume
+        emptyDir: {}
+      - name: eclwatch-configmap-volume
+        configMap:
+          name: eclwatch-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "eclservices"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "eclservices"
+  template:
+    metadata:
+      labels:
+        run: "eclservices"
+        accessDali: "yes"
+        app: eclservices
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "eclservices"
+        workingDir: /var/lib/HPCCSystems
+        command: [ esp ] 
+        args: [
+                "--application=eclservices",
+                "--config=/etc/config/eclservices.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/eclservices.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclservices.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclservices.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: eclservices-temp-volume
+          mountPath: /tmp
+        - name: eclservices-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: eclservices-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: eclservices-temp-volume
+        emptyDir: {}
+      - name: eclservices-hpcctmp-volume
+        emptyDir: {}
+      - name: eclservices-configmap-volume
+        configMap:
+          name: eclservices-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "eclqueries"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "eclqueries"
+  template:
+    metadata:
+      labels:
+        run: "eclqueries"
+        accessDali: "yes"
+        app: eclqueries
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "eclqueries"
+        workingDir: /var/lib/HPCCSystems
+        command: [ esp ] 
+        args: [
+                "--application=eclqueries",
+                "--config=/etc/config/eclqueries.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/eclqueries.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclqueries.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/eclqueries.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: eclqueries-temp-volume
+          mountPath: /tmp
+        - name: eclqueries-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: eclqueries-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: eclqueries-temp-volume
+        emptyDir: {}
+      - name: eclqueries-hpcctmp-volume
+        emptyDir: {}
+      - name: eclqueries-configmap-volume
+        configMap:
+          name: eclqueries-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "esdl-sandbox"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "esdl-sandbox"
+  template:
+    metadata:
+      labels:
+        run: "esdl-sandbox"
+        accessDali: "yes"
+        app: esdl-sandbox
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "esdl-sandbox"
+        workingDir: /var/lib/HPCCSystems
+        command: [ esp ] 
+        args: [
+                "--application=esdl-sandbox",
+                "--config=/etc/config/esdl-sandbox.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/esdl-sandbox.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/esdl-sandbox.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/esdl-sandbox.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: esdl-sandbox-temp-volume
+          mountPath: /tmp
+        - name: esdl-sandbox-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: esdl-sandbox-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: esdl-sandbox-temp-volume
+        emptyDir: {}
+      - name: esdl-sandbox-hpcctmp-volume
+        emptyDir: {}
+      - name: esdl-sandbox-configmap-volume
+        configMap:
+          name: esdl-sandbox-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "sql2ecl"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "sql2ecl"
+  template:
+    metadata:
+      labels:
+        run: "sql2ecl"
+        accessDali: "yes"
+        app: sql2ecl
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "sql2ecl"
+        workingDir: /var/lib/HPCCSystems
+        command: [ esp ] 
+        args: [
+                "--application=sql2ecl",
+                "--config=/etc/config/sql2ecl.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/sql2ecl.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/sql2ecl.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/sql2ecl.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: sql2ecl-temp-volume
+          mountPath: /tmp
+        - name: sql2ecl-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: sql2ecl-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: sql2ecl-temp-volume
+        emptyDir: {}
+      - name: sql2ecl-hpcctmp-volume
+        emptyDir: {}
+      - name: sql2ecl-configmap-volume
+        configMap:
+          name: sql2ecl-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc

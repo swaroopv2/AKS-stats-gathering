@@ -1,0 +1,259 @@
+# Source: hpcc/templates/thor.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: thor-configmap 
+data:
+  thor.yaml: |
+    version: 1.0
+    thor:
+      maxGraphs: 2
+      maxJobs: 4
+      name: thor
+      numWorkers: 2
+      prefix: thor      
+      logging:
+        detail: 100
+      vaults:
+        ecl:
+        ecl-user:
+        storage:
+    hthor: # hthor or roxie
+      name: thor-hthor
+      platform:
+        type: "thor"
+        width: 2      
+      logging:
+        detail: 100
+      vaults:
+        ecl:
+        ecl-user:
+        storage:
+    eclagent: # main agent Q handler
+      name: thor-eclagent
+      replicas: 1
+      type: hthor
+      useChildProcesses: true      
+      logging:
+        detail: 100
+    thoragent: # Thor graph handler
+      name: thor-thoragent
+      replicas: 1      
+      logging:
+        detail: 100
+      type: thor
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8
+
+  thormanager-jobspec.yaml: |
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: thormanager-%jobname
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        metadata:
+          labels:
+            app: thor
+            accessDali: "yes"
+            accessEsp: "yes"
+            job: %jobname
+        spec:
+          serviceAccountName: hpcc-agent
+          initContainers:          
+          containers:
+          - name: thormanager-%jobname            
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              runAsUser: 10000
+              runAsGroup: 10001
+              readOnlyRootFilesystem: true
+            
+            image: "hpccsystems/platform-core:latest"
+            imagePullPolicy: IfNotPresent            
+            workingDir: /var/lib/HPCCSystems
+            command: [ thormaster_lcr ] 
+            args: [
+                    "--config=/etc/config/thor.yaml",
+                    "--daliServers=mydali",
+                    %args
+                  ]
+            volumeMounts:
+            - name: thor-temp-volume
+              mountPath: /tmp
+            - name: thor-hpcctmp-volume
+              mountPath: /var/lib/HPCCSystems
+            - name: thor-configmap-volume
+              mountPath: /etc/config
+            
+            - name: datastorage-pv
+              mountPath: "/var/lib/HPCCSystems/hpcc-data"
+            - name: dllstorage-pv
+              mountPath: "/var/lib/HPCCSystems/queries"
+            
+          volumes:
+          - name: thor-temp-volume
+            emptyDir: {}
+          - name: thor-hpcctmp-volume
+            emptyDir: {}
+          - name: thor-configmap-volume
+            configMap:
+              name: thor-configmap
+          
+          - name: datastorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-datastorage-pvc
+          - name: dllstorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-dllstorage-pvc
+          
+          restartPolicy: Never
+      backoffLimit: 0
+
+  thorworker-jobspec.yaml: |
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: thorworker-%jobname
+    spec:
+      parallelism: %numWorkers
+      ttlSecondsAfterFinished: 100
+      template:
+        metadata:
+          labels:
+            app: thor
+            accessEsp: "true"
+            job: %jobname
+        spec:
+          serviceAccountName: hpcc-default
+          containers:
+          - name: thorworker-%jobname            
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              runAsUser: 10000
+              runAsGroup: 10001
+              readOnlyRootFilesystem: true
+            
+            image: "hpccsystems/platform-core:latest"
+            imagePullPolicy: IfNotPresent            
+            workingDir: /var/lib/HPCCSystems
+            command: [ thorslave_lcr ] 
+            args: [
+                    "--config=/etc/config/thor.yaml",
+                    "--daliServers=mydali",
+                    %args
+                  ]
+            volumeMounts:
+            - name: thor-temp-volume
+              mountPath: /tmp
+            - name: thor-hpcctmp-volume
+              mountPath: /var/lib/HPCCSystems
+            - name: thor-configmap-volume
+              mountPath: /etc/config
+            
+            - name: datastorage-pv
+              mountPath: "/var/lib/HPCCSystems/hpcc-data"
+            - name: dllstorage-pv
+              mountPath: "/var/lib/HPCCSystems/queries"
+            
+          volumes:
+          - name: thor-temp-volume
+            emptyDir: {}
+          - name: thor-hpcctmp-volume
+            emptyDir: {}
+          - name: thor-configmap-volume
+            configMap:
+              name: thor-configmap
+          
+          - name: datastorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-datastorage-pvc
+          - name: dllstorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-dllstorage-pvc
+          
+          restartPolicy: Never
+      backoffLimit: 0
+
+  thormanager-networkspec.yaml: |
+    apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: thormanager-%jobname
+    spec:
+      podSelector:
+        matchLabels:
+          app: thor
+          job: %jobname
+      ingress:
+      - from:
+        - podSelector:
+            matchLabels:
+              app: thor
+              job: %jobname
+      egress:
+      - to:
+        - podSelector:
+            matchLabels:
+              app: thor
+              job: %jobname

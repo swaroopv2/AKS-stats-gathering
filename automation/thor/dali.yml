@@ -1,4 +1,3 @@
----
 # Source: hpcc/templates/dali.yaml
 kind: ConfigMap
 apiVersion: v1

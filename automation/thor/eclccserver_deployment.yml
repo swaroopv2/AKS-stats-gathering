@@ -1,0 +1,94 @@
+# Source: hpcc/templates/eclccserver.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "myeclccserver"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "myeclccserver"
+  template:
+    metadata:
+      labels:
+        run: "myeclccserver"
+        accessDali: "yes"
+        accessEsp: "no"
+    spec:
+      serviceAccountName: hpcc-agent
+      terminationGracePeriodSeconds: 600
+      initContainers:            
+      containers:
+      - name: "myeclccserver"
+        workingDir: /var/lib/HPCCSystems
+        command: [ eclccserver ] 
+        args: [
+                "--config=/etc/config/myeclccserver.yaml",
+                "--daliServers=mydali"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/myeclccserver.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/myeclccserver.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/myeclccserver.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        resources:
+          limits:
+            cpu: "50m"
+            memory: "100M"
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: myeclccserver-temp-volume
+          mountPath: /tmp
+        - name: myeclccserver-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: myeclccserver-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+        - name: "hpccbundles"
+          mountPath: "/home/hpcc/.HPCCSystems"
+      volumes:
+      - name: myeclccserver-temp-volume
+        emptyDir: {}
+      - name: myeclccserver-hpcctmp-volume
+        emptyDir: {}
+      - name: myeclccserver-configmap-volume
+        configMap:
+          name: myeclccserver-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+      
+      - name: hpccbundles
+        emptyDir: {}

@@ -1,0 +1,233 @@
+# Source: hpcc/templates/eclagent.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: hthor-configmap 
+data:
+  hthor.yaml: |
+    version: 1.0
+    eclagent:
+      maxActive: 4
+      name: hthor
+      prefix: hthor
+      replicas: 1
+      type: hthor
+      useChildProcesses: false      
+      logging:
+        detail: 100
+    hthor:
+      maxActive: 4
+      name: hthor
+      prefix: hthor
+      replicas: 1
+      type: hthor
+      useChildProcesses: false      
+      logging:
+        detail: 100
+      vaults:
+        ecl:
+        ecl-user:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8 
+  hthor-jobspec.yaml: |
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: hthor-%jobname
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        metadata:
+          labels:
+            accessDali: "yes"
+            accessEsp: "yes"
+        spec:
+          serviceAccountName: "hpcc-default"
+          containers:
+          - name: hthor-%jobname            
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              runAsUser: 10000
+              runAsGroup: 10001
+              readOnlyRootFilesystem: true
+            
+            image: "hpccsystems/platform-core:latest"
+            imagePullPolicy: IfNotPresent            
+            workingDir: /var/lib/HPCCSystems
+            command: [ "hthor" ]
+            args: [
+                        "--config=/etc/config/hthor.yaml",
+                        "--daliServers=mydali",
+                        %args
+                     ]
+            volumeMounts:
+            - name: hthor-temp-volume
+              mountPath: /tmp
+            - name: hthor-hpcctmp-volume
+              mountPath: /var/lib/HPCCSystems
+            - name: hthor-configmap-volume
+              mountPath: /etc/config
+            
+            - name: datastorage-pv
+              mountPath: "/var/lib/HPCCSystems/hpcc-data"
+            - name: dllstorage-pv
+              mountPath: "/var/lib/HPCCSystems/queries"
+            
+          volumes:
+          - name: hthor-temp-volume
+            emptyDir: {}
+          - name: hthor-hpcctmp-volume
+            emptyDir: {}
+          - name: hthor-configmap-volume
+            configMap:
+              name: hthor-configmap
+          
+          - name: datastorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-datastorage-pvc
+          - name: dllstorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-dllstorage-pvc
+          
+          restartPolicy: Never
+      backoffLimit: 0
+---
+# Source: hpcc/templates/eclagent.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: roxie-workunit-configmap 
+data:
+  roxie-workunit.yaml: |
+    version: 1.0
+    eclagent:
+      maxActive: 20
+      name: roxie-workunit
+      prefix: roxie_workunit
+      replicas: 1
+      type: roxie
+      useChildProcesses: true      
+      logging:
+        detail: 100
+    roxie:
+      maxActive: 20
+      name: roxie-workunit
+      prefix: roxie_workunit
+      replicas: 1
+      type: roxie
+      useChildProcesses: true      
+      logging:
+        detail: 100
+      vaults:
+        ecl:
+        ecl-user:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8

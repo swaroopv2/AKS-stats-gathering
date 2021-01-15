@@ -1,4 +1,3 @@
----
 # Source: hpcc/templates/network.yaml
 ##
 ## Default to no ingress, and egress only to dns servers

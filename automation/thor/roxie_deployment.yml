@@ -1,0 +1,255 @@
+# Source: hpcc/templates/roxie.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "roxie-toposerver"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "roxie-toposerver"
+  template:
+    metadata:
+      labels:
+        run: "roxie-toposerver"
+        roxie-cluster: "roxie"
+    spec:
+      serviceAccountName: "hpcc-default"
+      containers:
+      - name: "roxie-toposerver"
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/roxie.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        resources:
+          limits:
+            cpu: "50m"
+            memory: "100M"
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        workingDir: /var/lib/HPCCSystems
+        command: [ toposerver ] 
+        volumeMounts:
+        - name: roxie-temp-volume
+          mountPath: /tmp
+        - name: roxie-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: roxie-configmap-volume
+          mountPath: /etc/config
+      volumes:
+      - name: roxie-temp-volume
+        emptyDir: {}
+      - name: roxie-hpcctmp-volume
+        emptyDir: {}
+      - name: roxie-configmap-volume
+        configMap:
+          name: roxie-configmap
+---
+# Source: hpcc/templates/roxie.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "roxie-agent-1"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: "roxie-agent-1"
+  template:
+    metadata:
+      labels:
+        run: "roxie-agent-1"        
+        roxie-server: "roxie-server"
+        roxie-cluster: "roxie"
+        accessDali: "yes"
+        accessEsp: "yes"
+    spec:
+      serviceAccountName: "hpcc-default"
+      initContainers:      
+      containers:
+      - name: "roxie-agent-1"
+        workingDir: /var/lib/HPCCSystems
+        command: [ roxie ]
+        args: [ 
+                "--config=/etc/config/roxie.yaml",
+                "--daliServers=mydali",
+                "--channels=1", 
+                "--server=true",
+              ]
+        ports:
+        - name: roxie
+          containerPort: 9876
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/roxie.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          periodSeconds: 10
+        
+        
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: roxie-temp-volume
+          mountPath: /tmp
+        - name: roxie-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: roxie-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: roxie-temp-volume
+        emptyDir: {}
+      - name: roxie-hpcctmp-volume
+        emptyDir: {}
+      - name: roxie-configmap-volume
+        configMap:
+          name: roxie-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/roxie.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "roxie-agent-2"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: "roxie-agent-2"
+  template:
+    metadata:
+      labels:
+        run: "roxie-agent-2"        
+        roxie-server: "roxie-server"
+        roxie-cluster: "roxie"
+        accessDali: "yes"
+        accessEsp: "yes"
+    spec:
+      serviceAccountName: "hpcc-default"
+      initContainers:      
+      containers:
+      - name: "roxie-agent-2"
+        workingDir: /var/lib/HPCCSystems
+        command: [ roxie ]
+        args: [ 
+                "--config=/etc/config/roxie.yaml",
+                "--daliServers=mydali",
+                "--channels=2", 
+                "--server=true",
+              ]
+        ports:
+        - name: roxie
+          containerPort: 9876
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/roxie.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/roxie.sentinel"
+          periodSeconds: 10
+        
+        
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: roxie-temp-volume
+          mountPath: /tmp
+        - name: roxie-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: roxie-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: roxie-temp-volume
+        emptyDir: {}
+      - name: roxie-hpcctmp-volume
+        emptyDir: {}
+      - name: roxie-configmap-volume
+        configMap:
+          name: roxie-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc

@@ -1,0 +1,140 @@
+# Source: hpcc/templates/thor.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "thor-eclagent"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "thor-eclagent"
+  template:
+    metadata:
+      labels:
+        run: "thor-eclagent"
+        accessDali: "yes"
+        accessEsp: "yes"
+    spec:
+      serviceAccountName: hpcc-default
+      containers:
+      - name: "thor-eclagent"
+        workingDir: /var/lib/HPCCSystems
+        command: [ agentexec ]
+        args: [
+                "--config=/etc/config/thor.yaml",
+                "--daliServers=mydali",
+                "--name=thor"
+              ]        
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: thor-temp-volume
+          mountPath: /tmp
+        - name: thor-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: thor-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: thor-temp-volume
+        emptyDir: {}
+      - name: thor-hpcctmp-volume
+        emptyDir: {}
+      - name: thor-configmap-volume
+        configMap:
+          name: thor-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc
+---
+# Source: hpcc/templates/thor.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "thor-thoragent"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "thor-thoragent"
+  template:
+    metadata:
+      labels:
+        run: "thor-thoragent"
+        accessDali: "yes"
+        accessEsp: "no"
+    spec:
+      serviceAccountName: "hpcc-thoragent"
+      containers:
+      - name: "thor-thoragent"
+        workingDir: /var/lib/HPCCSystems
+        command: [ agentexec ]
+        args: [
+                "--config=/etc/config/thor.yaml",
+                "--componentTag=thoragent",
+                "--daliServers=mydali",
+                "--name=thor"
+              ]        
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        resources:
+          limits:
+            cpu: "50m"
+            memory: "100M"
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: thor-temp-volume
+          mountPath: /tmp
+        - name: thor-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: thor-configmap-volume
+          mountPath: /etc/config
+        
+        - name: datastorage-pv
+          mountPath: "/var/lib/HPCCSystems/hpcc-data"
+        - name: dllstorage-pv
+          mountPath: "/var/lib/HPCCSystems/queries"
+        
+      volumes:
+      - name: thor-temp-volume
+        emptyDir: {}
+      - name: thor-hpcctmp-volume
+        emptyDir: {}
+      - name: thor-configmap-volume
+        configMap:
+          name: thor-configmap
+      
+      - name: datastorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-datastorage-pvc
+      - name: dllstorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dllstorage-pvc

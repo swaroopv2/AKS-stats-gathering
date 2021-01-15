@@ -1,23 +1,86 @@
----
 # Source: hpcc/templates/roxie.yaml
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+kind: ConfigMap 
+apiVersion: v1 
 metadata:
-  name: "roxie"
-spec:
-  podSelector:
-    matchLabels:
-      roxie-cluster: "roxie"
-  policyTypes:
-  - Ingress
-  - Egress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          roxie-cluster: "roxie"
-  egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          roxie-cluster: "roxie"
+  name: roxie-configmap 
+data:
+  roxie.yaml: |
+    version: 1.0
+    roxie:
+      disabled: false
+      localAgent: false
+      name: roxie
+      numChannels: 2
+      prefix: roxie
+      replicas: 2
+      serverReplicas: 0
+      services:
+      - external: true
+        listenQueue: 200
+        name: roxie
+        numThreads: 30
+        port: 9876
+      topoReplicas: 1
+      useAeron: false
+      numChannels: 2
+      topologyServers: "roxie-toposerver:9004"
+      resolveLocally: false      
+      logging:
+        detail: 100
+      vaults:
+        ecl:
+        ecl-user:
+        storage:
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8

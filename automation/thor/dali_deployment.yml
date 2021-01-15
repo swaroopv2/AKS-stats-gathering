@@ -1,0 +1,76 @@
+# Source: hpcc/templates/dali.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "mydali"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: "mydali"
+      app: dali
+  template:
+    metadata:
+      labels:
+        run: "mydali"
+        app: dali
+    spec:
+      serviceAccountName: "hpcc-default"
+      initContainers:      
+      containers:
+      - name: "mydali"
+        workingDir: /var/lib/HPCCSystems
+        command: [ daserver ] 
+        args: [
+                "--config=/etc/config/mydali.yaml"
+              ]
+        env:
+        - name: "SENTINEL"
+          value: "/tmp/mydali.sentinel"
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/mydali.sentinel"
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - "/tmp/mydali.sentinel"
+          periodSeconds: 10
+                
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 10000
+          runAsGroup: 10001
+          readOnlyRootFilesystem: true
+                
+        image: "hpccsystems/platform-core:latest"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: mydali-temp-volume
+          mountPath: /tmp
+        - name: mydali-hpcctmp-volume
+          mountPath: /var/lib/HPCCSystems
+        - name: mydali-configmap-volume
+          mountPath: /etc/config
+        - name: dalistorage-pv
+          mountPath: "/var/lib/HPCCSystems/dalistorage"
+        
+      volumes:
+      - name: mydali-temp-volume
+        emptyDir: {}
+      - name: mydali-hpcctmp-volume
+        emptyDir: {}
+      - name: mydali-configmap-volume
+        configMap:
+          name: mydali-configmap
+      - name: dalistorage-pv
+        persistentVolumeClaim:
+          claimName: mycluster-hpcc-dalistorage-pvc

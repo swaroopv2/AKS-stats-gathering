@@ -1,0 +1,149 @@
+# Source: hpcc/templates/eclccserver.yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: myeclccserver-configmap 
+data:
+  myeclccserver.yaml: |
+    version: 1.0
+    eclccserver:
+      listen: []
+      maxActive: 4
+      name: myeclccserver
+      replicas: 1
+      useChildProcesses: false      
+      logging:
+        detail: 100
+      queues:
+      - name: hthor
+        type: hthor
+        prefix: hthor
+      - name: roxie-workunit
+        type: roxie
+        prefix: roxie_workunit
+      - name: roxie
+        type: roxie 
+        prefix: roxie
+      - name: thor
+        type: thor
+        prefix: thor
+        width: 2
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8 
+  compile-jobspec.yaml: |
+    apiVersion: batch/v1
+    kind: Job
+    metadata:
+      name: compile-%jobname
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        metadata:
+          labels:
+            accessDali: "yes"
+            accessEsp: "yes"
+        spec:
+          serviceAccountName: "hpcc-default"
+          containers:
+          - name: compile-%jobname            
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              runAsUser: 10000
+              runAsGroup: 10001
+              readOnlyRootFilesystem: true
+                        
+            image: "hpccsystems/platform-core:latest"
+            imagePullPolicy: IfNotPresent
+            workingDir: /tmp
+            command: [ eclccserver ]
+            args: [
+                        "--config=/etc/config/myeclccserver.yaml",
+                        "--daliServers=mydali",
+                        %args
+                     ]
+            volumeMounts:
+            - name: myeclccserver-temp-volume
+              mountPath: /tmp
+            - name: myeclccserver-hpcctmp-volume
+              mountPath: /var/lib/HPCCSystems
+            - name: myeclccserver-configmap-volume
+              mountPath: /etc/config
+            
+            - name: datastorage-pv
+              mountPath: "/var/lib/HPCCSystems/hpcc-data"
+            - name: dllstorage-pv
+              mountPath: "/var/lib/HPCCSystems/queries"
+            
+          volumes:
+          - name: myeclccserver-temp-volume
+            emptyDir: {}
+          - name: myeclccserver-hpcctmp-volume
+            emptyDir: {}
+          - name: myeclccserver-configmap-volume
+            configMap:
+              name: myeclccserver-configmap
+          
+          - name: datastorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-datastorage-pvc
+          - name: dllstorage-pv
+            persistentVolumeClaim:
+              claimName: mycluster-hpcc-dllstorage-pvc
+          
+          restartPolicy: Never
+      backoffLimit: 0

@@ -1,0 +1,113 @@
+# Source: hpcc/templates/dali.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "mydali"
+spec:
+  ports:
+  - port: 7070
+    protocol: TCP
+    targetPort: 7070
+  selector:
+    run: "mydali"
+  type: ClusterIP
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "eclwatch"
+spec:
+  ports:
+  - port: 8010
+    protocol: TCP
+    targetPort: 8888
+  selector:
+    run: "eclwatch"
+  type: LoadBalancer
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "eclservices"
+spec:
+  ports:
+  - port: 8010
+    protocol: TCP
+    targetPort: 8880
+  selector:
+    run: "eclservices"
+  type: ClusterIP
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "eclqueries"
+spec:
+  ports:
+  - port: 8002
+    protocol: TCP
+    targetPort: 8880
+  selector:
+    run: "eclqueries"
+  type: LoadBalancer
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "esdl-sandbox"
+spec:
+  ports:
+  - port: 8899
+    protocol: TCP
+    targetPort: 8880
+  selector:
+    run: "esdl-sandbox"
+  type: LoadBalancer
+---
+# Source: hpcc/templates/esp.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "sql2ecl"
+spec:
+  ports:
+  - port: 8510
+    protocol: TCP
+    targetPort: 8880
+  selector:
+    run: "sql2ecl"
+  type: LoadBalancer
+---
+# Source: hpcc/templates/roxie.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "roxie"
+  labels:
+    type: roxie-service
+spec:
+  ports:
+  - port: 9876
+    protocol: TCP
+    targetPort: 9876
+  selector:
+    roxie-server: "roxie-server"
+  type: LoadBalancer
+---
+# Source: hpcc/templates/roxie.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "roxie-toposerver"
+spec:
+  ports:
+  - port: 9004
+    protocol: TCP
+    targetPort: 9004
+  selector:
+    run: "roxie-toposerver"
+  clusterIP: None # Headless service

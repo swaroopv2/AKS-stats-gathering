@@ -1,0 +1,53 @@
+# Source: hpcc/templates/dali.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mycluster-hpcc-dalistorage-pvc
+  labels:
+    app.kubernetes.io/name: mycluster-hpcc-mydali-dalistorage-pvc
+    app.kubernetes.io/instance: mycluster
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: hpcc-7.12.18
+spec:
+  accessModes:
+    - ReadWriteMany  # accessed from dali and sasha
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "azurefile"
+---
+# Source: hpcc/templates/datastorage-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mycluster-hpcc-datastorage-pvc
+  labels:
+    app.kubernetes.io/name: mycluster-hpcc-datastorage-pvc
+    app.kubernetes.io/instance: mycluster
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: hpcc-7.12.18
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "azurefile"
+---
+# Source: hpcc/templates/dllserver-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mycluster-hpcc-dllstorage-pvc
+  labels:
+    app.kubernetes.io/name: mycluster-hpcc-dllstorage-pvc
+    app.kubernetes.io/instance: mycluster
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: hpcc-7.12.18
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3Gi
+  storageClassName: "azurefile"
