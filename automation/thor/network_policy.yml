@@ -1,0 +1,125 @@
+---
+# Source: hpcc/templates/network.yaml
+##
+## Default to no ingress, and egress only to dns servers
+##
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all-but-dns
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+---
+# Source: hpcc/templates/network.yaml
+##
+## Pods that launch k8s jobs need access to k8s API server
+##
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-apiserver
+spec:
+  policyTypes:
+  - Egress
+  podSelector: {}
+  egress:
+  - to:
+    ports:
+    - protocol: TCP
+---
+# Source: hpcc/templates/network.yaml
+##
+## Many pods need access to dali
+##
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dali-server
+spec:
+  podSelector:
+    matchLabels:
+      app: dali
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          accessDali: "yes"
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          accessDali: "yes"
+---
+# Source: hpcc/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dali-client
+spec:
+  podSelector:
+    matchLabels:
+      accessDali: "yes"
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: dali
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: dali
+---
+# Source: hpcc/templates/network.yaml
+##
+## Pods that run workunits, or which need to do DFU lookups, are allowed to access espservices
+##
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: esp-server
+spec:
+  podSelector:
+    matchLabels:
+      app: eclservices
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          accessEsp: "yes"
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          accessEsp: "yes"
+---
+# Source: hpcc/templates/network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: esp-client
+spec:
+  podSelector:
+    matchLabels:
+      accessEsp: "yes"
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: eclservices
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: eclservices
+

@@ -1,0 +1,23 @@
+---
+# Source: hpcc/templates/roxie.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: "roxie"
+spec:
+  podSelector:
+    matchLabels:
+      roxie-cluster: "roxie"
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          roxie-cluster: "roxie"
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          roxie-cluster: "roxie"

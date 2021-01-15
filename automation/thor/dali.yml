@@ -1,0 +1,66 @@
+---
+# Source: hpcc/templates/dali.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mydali-configmap
+data:
+  mydali.yaml: |
+    version: 1.0
+    dali:
+      name: mydali
+      logging:
+        detail: 100
+    global:
+      imageVersion: "latest"
+      singleNode: false
+      esp:
+      - application: eclwatch
+        auth: none
+        name: eclwatch
+        port: 8888
+        public: true
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclservices
+        auth: none
+        name: eclservices
+        public: false
+        replicas: 1
+        servicePort: 8010
+        tls: false
+      - application: eclqueries
+        auth: none
+        name: eclqueries
+        public: true
+        replicas: 1
+        servicePort: 8002
+        tls: false
+      - application: esdl-sandbox
+        auth: none
+        name: esdl-sandbox
+        public: true
+        replicas: 1
+        servicePort: 8899
+        tls: false
+      - application: sql2ecl
+        auth: none
+        name: sql2ecl
+        public: true
+        replicas: 1
+        servicePort: 8510
+        tls: false
+      secretTimeout: 300
+      storage:
+        daliPlane: hpcc-dali-plane
+        dllsPlane: hpcc-dali-plane
+        dataPlane: hpcc-data-plane
+        spillPlane: hpcc-spill-plane
+        planes:
+        - name: hpcc-data-plane
+          mount: "/var/lib/HPCCSystems/hpcc-data"
+        - name: hpcc-spill-plane
+          mount: "/var/lib/HPCCSystems/hpcc-spill"
+      cost:
+        moneyLocale: en_US.UTF-8

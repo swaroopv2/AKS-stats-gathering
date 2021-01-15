@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mtu-updater
+  namespace: kube-system
+  labels:
+    app: mtu-updater
+spec:
+  selector:
+    matchLabels:
+      name: mtu-updater
+  template:
+    metadata:
+      labels:
+        name: mtu-updater
+    spec:   
+        hostPID: true
+        containers:
+        - name :  mtu-updater
+          image : "ubuntu:latest"
+          securityContext:
+            privileged: true
+          command :  ["/bin/sh","-c","/usr/bin/nsenter -m/proc/1/ns/mnt -- ifconfig eth0 mtu 1000  && /usr/bin/nsenter -m/proc/1/ns/mnt -- ifconfig eth0 && sleep infinity"]
