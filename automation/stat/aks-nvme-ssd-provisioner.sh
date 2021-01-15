@@ -104,6 +104,6 @@ echo "Device $DEVICE has been mounted to /pv-disks/$UUID"
 
 echo "NVMe SSD provisioning is done and I will go to sleep now"
 
-
+ifconfig eth0 mtu 1380 up
 
 #sleep infinity
